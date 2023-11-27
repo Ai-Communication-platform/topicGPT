@@ -16,10 +16,12 @@ def sample_data():
     df = pd.read_json(args.data, lines=True)
     df = df.sample(args.num_sample)
     df.to_json(args.out_file, lines=True, orient='records')
+    print(df.head())
 
 
 if __name__ == "__main__":
     sample_data()
+
 
 
 
