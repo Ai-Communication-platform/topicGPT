@@ -176,8 +176,9 @@ def read_seed(seed_file):
     topics = []
     pattern = regex.compile('^\[(\d+)\] ([\w\s]+) \(Count: (\d+)\): (.+)')
     hierarchy = open(seed_file, "r").readlines()
-    for res in hierarchy: 
+    for res in hierarchy:
         res = res.strip().split("\n")
+        print('res: ', res)
         for r in res: 
             r = r.strip()
             if regex.match(pattern, r) is not None:
