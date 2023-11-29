@@ -1,1 +1,14 @@
-[1] Trade
+[1] Joy
+[2] Sadness
+[3] Fear
+[4] Disgust
+[5] Anger
+[6] Surprise
+[7] Contempt
+[8] Love
+[9] Guilt
+[10] Shame
+[11] Envy
+[12] Pride
+[13] Curiosity
+[14] Relief

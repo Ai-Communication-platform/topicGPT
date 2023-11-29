@@ -12,7 +12,7 @@ from itertools import islice
 import requests
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 from openai import OpenAI
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 # Add perplexity API key to the environment variable & load it here. 
 PERPLEXITY_API_KEY = ""         

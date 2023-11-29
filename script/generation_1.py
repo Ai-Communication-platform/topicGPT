@@ -122,13 +122,13 @@ def generate_topics(topics_root, topics_list, context_len, docs, seed_file, depl
 
 def main(): 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--deployment_name", type=str, help="model to run topic generation with ('gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct)")
+    parser.add_argument("--deployment_name", type=str,default="topicGPT", help="model to run topic generation with ('gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct)")
     parser.add_argument("--max_tokens", type=int, default=500, help="max tokens to generate")
     parser.add_argument("--temperature", type=float, default=0.0, help="temperature for generation")
     parser.add_argument("--top_p", type=float, default=0.0, help="top-p for generation")
-    parser.add_argument("--data", type=str, default="data/input/sample.jsonl", help="data to run generation on")
-    parser.add_argument("--prompt_file", type=str, default="prompt/generation_1.txt", help="file to read prompts from")
-    parser.add_argument("--seed_file", type=str, default="prompt/seed_1.md", help="markdown file to read the seed topics from")
+    parser.add_argument("--data", type=str, default="C:\\Users\\win\\Documents\\GitHub\\topicGPT\\data\\input\\sample.jsonl", help="data to run generation on")
+    parser.add_argument("--prompt_file", type=str, default="C:\\Users\\win\\Documents\\GitHub\\topicGPT\\prompt\\generation_1.txt", help="file to read prompts from")
+    parser.add_argument("--seed_file", type=str, default="C:\\Users\\win\\Documents\\GitHub\\topicGPT\\prompt\\seed_1.md", help="markdown file to read the seed topics from")
     parser.add_argument("--out_file", type=str, default="data/output/generation_1.jsonl", help="file to write results to")
     parser.add_argument("--topic_file", type=str, default="data/output/generation_1.md", help="file to write topics to")
     parser.add_argument("--verbose", type=bool, default=False, help="whether to print out results")
@@ -148,6 +148,11 @@ def main():
     docs = df["text"].tolist()
     generation_prompt = open(args.prompt_file, "r").read()
     topics_root, topics_list = generate_tree(read_seed(args.seed_file))
+
+    #read_seed 결과 출력
+    print("read_seed 결과")
+    print(read_seed(args.seed_file))
+
 
     # Prompting ----
     responses, topics_list, topics_root = generate_topics(topics_root, topics_list, context_len, docs, args.seed_file, deployment_name, generation_prompt, temperature, max_tokens, top_p, args.verbose)
