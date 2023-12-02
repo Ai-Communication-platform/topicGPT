@@ -12,21 +12,22 @@ from itertools import islice
 import requests
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 from openai import OpenAI
-os.environ["OPENAI_API_KEY"] = "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"
+
+os.environ["OPENAI_API_KEY"] = "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"
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 # Add perplexity API key to the environment variable & load it here. 
-PERPLEXITY_API_KEY = ""         
+#PERPLEXITY_API_KEY = ""
 @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(6))
 
 
 def api_call(prompt, deployment_name, temperature, max_tokens, top_p):
     '''
-    Call API (OpenAI, Azure, Perplexity) and return response
-    - prompt: prompt template
-    - deployment_name: name of the deployment to use (e.g. gpt-4, gpt-3.5-turbo, etc.)
-    - temperature: temperature parameter
-    - max_tokens: max tokens parameter
-    - top_p: top p parameter
+    API(OpenAI, Azure, Perplexity) 호출 및 응답 반환
+     - 프롬프트: 프롬프트 템플릿
+     - 배포 이름: 사용할 배포 이름(예: gpt-4, gpt-3.5-turbo 등)
+     - 온도: 온도 매개변수
+     - max_tokens: 최대 토큰 매개변수
+     - top_p: 상위 p 매개변수
     '''
     time.sleep(5)                           # Change to avoid rate limit
     if deployment_name in ["gpt-35-turbo", "gpt-4", "gpt-3.5-turbo"]:
@@ -54,7 +55,7 @@ def api_call(prompt, deployment_name, temperature, max_tokens, top_p):
         headers = {
             "accept": "application/json",
             "content-type": "application/json",
-            "authorization": PERPLEXITY_API_KEY
+            #"authorization": PERPLEXITY_API_KEY
         }
         response = requests.post("https://api.perplexity.ai/chat/completions", json=payload, headers=headers)
         if response.status_code != 200:
@@ -68,15 +69,15 @@ def api_call(prompt, deployment_name, temperature, max_tokens, top_p):
 
 def get_ada_embedding(text, model="text-embedding-ada-002"): 
     '''
-    Get text embedding from openai API
+    openai API에서 텍스트 삽입 가져오기
     '''
     return client.embeddings.create(input=[text], engine=model)["data"][0]["embedding"]
 
 def num_tokens_from_messages(messages, model):
     '''
-    Return the number of tokens used by a list of messages.
-    - messages: document/prompt, the length of which is to be calculated
-    - model: the model used to generate the messages
+    메시지 목록에 사용되는 토큰 수를 반환합니다.
+     - 메시지: 길이를 계산할 문서/프롬프트
+     - 모델: 메시지를 생성하는 데 사용되는 모델
     Source: https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
     '''
     if model.startswith("gpt"):
@@ -104,7 +105,7 @@ def num_tokens_from_messages(messages, model):
 
 def truncating(document, max_tokens): 
     '''
-    Truncating the document down to contain only max_tokens
+    max_tokens만 포함하도록 문서 자르기
     '''
     encoding = tiktoken.get_encoding("cl100k_base")
     tokens = encoding.encode(document)
@@ -118,8 +119,8 @@ def truncating(document, max_tokens):
 #------------------------#
 def generate_tree(topic_list): 
     '''
-    Return topic tree representation & list of topics
-    - topic_list: list of topics read from topic file
+    주제 트리 표현 및 주제 목록 반환
+     - topic_list: 토픽 파일에서 읽어온 토픽 목록
     '''
     prev_lvl = 0 
     root = Node(name="Topics", parent=None, lvl=0, count=1)
@@ -171,7 +172,7 @@ def generate_tree(topic_list):
 
 def read_seed(seed_file): 
     '''
-    Construct topic list from seed file (.md format)
+    시드 파일(.md 형식)에서 주제 목록 구성
     '''
     topics = []
     pattern = regex.compile('^\[(\d+)\] ([\w\s]+) \(Count: (\d+)\): (.+)')
@@ -188,9 +189,9 @@ def read_seed(seed_file):
 
 def tree_view(root): 
     '''
-    Format tree including count
-    - root: root node
-    Output: tree view in md 
+    개수를 포함한 형식 트리
+     - 루트: 루트 노드
+     출력: md의 트리 보기
     '''
     tree_str = ''''''
     for _, _, node in RenderTree(root):
@@ -202,8 +203,8 @@ def tree_view(root):
 
 def tree_prompt(root): 
     '''
-    Format tree to include in next prompt
-    - root: root node of the tree
+    다음 프롬프트에 포함할 형식 트리
+     - 루트: 트리의 루트 노드
     '''
     tree_str = ''''''
     num_top = 0 
@@ -217,10 +218,10 @@ def tree_prompt(root):
 
 def tree_addition(root, node_list, top_gen): 
     '''
-    For second level 
-    Step 1: Determine the level of the topic --> See if there is already a node with the same label at that level 
-    Step 2: If there is a duplicate, set the previous node to that duplicate. 
-    Step 3: If there is not a duplicate, add the topic to that level. 
+    두 번째 수준의 경우
+     1단계: 주제 수준 결정 --> 해당 수준에 동일한 라벨을 가진 노드가 이미 있는지 확인
+     2단계: 중복이 있는 경우 이전 노드를 해당 중복으로 설정합니다.
+     3단계: 중복된 항목이 없으면 해당 수준에 주제를 추가합니다.
     '''
     prev_node = root
     prev_lvl = 0 
