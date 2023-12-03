@@ -284,8 +284,7 @@ def branch_to_str(root):
 
 def construct_document(docs, context_len): 
     '''
-    Constructing a list of documents for each prompt (used in level 2+ of topic hierarchy)
-    '''
+    각 프롬프트에 대한 문서 목록 구성(주제 계층의 레벨 2+에서 사용됨)    '''
     i = 0 
     doc_str, doc_prompt = '', []
     while (i < len(docs)): 
@@ -307,11 +306,11 @@ def construct_document(docs, context_len):
 
 def construct_sentences(p2_root, removed): 
     '''
-    Construct a list of topic branches, each branch is a string
-    containing topic label and description
-    - p2_root: root node of the topic tree
-    - removed: list of node strings (topic label: topic description) 
-    that have been removed from the tree
+    주제 분기 목록을 구성합니다. 각 분기는 문자열입니다.
+     주제 라벨 및 설명 포함
+     - p2_root: 토픽 트리의 루트 노드
+     - 제거됨: 노드 문자열 목록(주제 레이블: 주제 설명)
+     나무에서 제거된 것
     '''
     branch = {}
     for node in p2_root.descendants: 
