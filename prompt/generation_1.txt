@@ -1,26 +1,37 @@
-[document]
-{document}
+You will receive a document and a set of top-level topics from a topic hierarchy. Your task is to identify generalizable topics within the document that can act as top-level topics in the hierarchy. If any relevant topics are missing from the provided set, please add them. Otherwise, output the existing top-level topics as identified in the document.
 
-[Emotion Sheet]
-{emotion}
+[Top-level topics]
+{Topics}
 
-[example]
-Example 1: Adding "[1] Depressed"
-Document: I failed my test today. I really don't want to do anything.
+[Examples]
+Example 1: Adding "[1] Agriculture"
+Document: 
+Saving Essential American Sailors Act or SEAS Act - Amends the Moving Ahead for Progress in the 21st Century Act (MAP-21) to repeal the Act's repeal of the agricultural export requirements that: (1) 25% of the gross tonnage of certain agricultural commodities or their products exported each fiscal year be transported on U.S. commercial vessels, and (2) the Secretary of Transportation (DOT) finance any increased ocean freight charges incurred in the transportation of such items. Revives and reinstates those repealed requirements to read as if they were never repealed.
 
-answer:
-[1] Depressed: The user is currently depressed because he or she failed the exam.
+Your response: 
+[1] Agriculture: Mentions policies relating to agricultural practices and products.
 
-[guideline]
-Step 1: Determine the emotions mentioned in the document.
+Example 2: Duplicate "[1] Trade", returning the existing topic
+Document: 
+Amends the Harmonized Tariff Schedule of the United States to suspend temporarily the duty on mixtures containing Fluopyram.
 
-Emotion labels should be as general as possible. It should not be document specific.
-The emotion must be a single emotion. It should not be a combination of several emotions.
-New emotions should have a level number, a simple generic label, and an emotion description.
-The sentiment must be broad enough to accommodate future detailed topics.
-Step 2: Do one of the following:
+Your response: 
+[1] Trade: Mentions the exchange of capital, goods, and services.
 
-If there are already duplicate or related sentiments in the hierarchy, we print those sentiments and stop there.
-If the document has no sentiment, it returns "None".
-Otherwise, add your emotion as the top emotion. It stops here and prints out the added emotion. Don't add any extra levels.
-The modified prompt identifies emotions based on the content of the document and labels them in a generalized form. Additionally, if the emotion already exists in the emotion hierarchy, the emotion is returned to avoid duplication, and if it is a new emotion, it is added as the top emotion.
+[Instructions]
+Step 1: Determine topics mentioned in the document. 
+- The topic labels must be as GENERALIZABLE as possible. They must not be document-specific.
+- The topics must reflect a SINGLE topic instead of a combination of topics.
+- The new topics must have a level number, a short general label, and a topic description. 
+- The topics must be broad enough to accommodate future subtopics. 
+Step 2: Perform ONE of the following operations: 
+1. If there are already duplicates or relevant topics in the hierarchy, output those topics and stop here. 
+2. If the document contains no topic, return "None". 
+3. Otherwise, add your topic as a top-level topic. Stop here and output the added topic(s). DO NOT add any additional levels.
+
+
+[Document]
+{Document}
+
+Please ONLY return the relevant or modified topics at the top level in the hierarchy.
+[Your response]
