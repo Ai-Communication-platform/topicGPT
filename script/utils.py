@@ -13,7 +13,7 @@ import requests
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 from openai import OpenAI
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 # Add perplexity API key to the environment variable & load it here. 
 #PERPLEXITY_API_KEY = ""
@@ -176,12 +176,14 @@ def read_seed(seed_file):
     '''
     topics = []
     pattern = regex.compile('^\[(\d+)\] ([\w\s]+) \(Count: (\d+)\): (.+)')
-    hierarchy = open(seed_file, "r").readlines()
+    hierarchy = open(seed_file, "r", encoding='utf-8').readlines()
     for res in hierarchy:
         res = res.strip().split("\n")
         print('res: ', res)
         for r in res: 
             r = r.strip()
+            print('r: ', r)
+            print(regex.match(pattern, r))
             if regex.match(pattern, r) is not None:
                 topics.append(r)
     return topics

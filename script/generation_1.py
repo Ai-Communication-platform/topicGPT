@@ -24,7 +24,12 @@ def prompt_formatting(generation_prompt, deployment_name, doc, seed_file, topics
     '''
     sbert = SentenceTransformer('all-MiniLM-L6-v2')
     # Format seed topics to include manually written topics + previously generated topics
-    topic_str = open(seed_file, 'r').read() + "\n" + "\n".join(topics_list)
+    
+    
+    topics_list = [str(item) for item in topics_list]
+
+
+    topic_str = open(seed_file, 'r', encoding='utf-8').read() + "\n" + "\n".join(topics_list)
 
     # Calculate length of document, seed topics, and prompt ----
     doc_len = num_tokens_from_messages(doc, deployment_name)
@@ -128,11 +133,11 @@ def main():
     parser.add_argument("--max_tokens", type=int, default=500, help="max tokens to generate")
     parser.add_argument("--temperature", type=float, default=0.0, help="temperature for generation")
     parser.add_argument("--top_p", type=float, default=0.0, help="top-p for generation")
-    parser.add_argument("--data", type=str, default="C:\\Users\\win\\Documents\\GitHub\\topicGPT\\data\\input\\sample.jsonl", help="data to run generation on")
-    parser.add_argument("--prompt_file", type=str, default="C:\\Users\\win\\Documents\\GitHub\\topicGPT\\prompt\\generation_1.txt", help="file to read prompts from")
-    parser.add_argument("--seed_file", type=str, default="C:\\Users\\win\\Documents\\GitHub\\topicGPT\\templates\\seed_1.md", help="markdown file to read the seed topics from")
-    parser.add_argument("--out_file", type=str, default="C:\\Users\\win\\Documents\\GitHub\\topicGPT\\data\\output\\generation_1.jsonl", help="file to write results to")
-    parser.add_argument("--topic_file", type=str, default="C:\\Users\\win\\Documents\\GitHub\\topicGPT\\data\\output\\generation_1.md", help="file to write topics to")
+    parser.add_argument("--data", type=str, default="C:\\Users\\ewqds\\Documents\\GitHub\\topicGPT\\data\\input\\sample.jsonl", help="data to run generation on")
+    parser.add_argument("--prompt_file", type=str, default="C:\\Users\\ewqds\\Documents\\GitHub\\topicGPT\\prompt\\generation_1.txt", help="file to read prompts from")
+    parser.add_argument("--seed_file", type=str, default="C:\\Users\\ewqds\\Documents\\GitHub\\topicGPT\\templates\\seed_1.md", help="markdown file to read the seed topics from")
+    parser.add_argument("--out_file", type=str, default="C:\\Users\\ewqds\\Documents\\GitHub\\topicGPT\\data\\output\\generation_1.jsonl", help="file to write results to")
+    parser.add_argument("--topic_file", type=str, default="C:\\Users\\ewqds\\Documents\\GitHub\\topicGPT\\data\\output\\generation_1.md", help="file to write topics to")
     parser.add_argument("--verbose", type=bool, default=False, help="whether to print out results")
     args = parser.parse_args()
 
@@ -155,6 +160,8 @@ def main():
 
     #read_seed 결과 출력
     print("read_seed 결과")
+    print("tree")
+    print(topics_root, topics_list)
     print(read_seed(args.seed_file))
 
 
